@@ -1,6 +1,8 @@
 package Loopy;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+
 import javax.imageio.ImageIO;
 
 
@@ -12,14 +14,69 @@ public class ASCII {
 	public String path;
 	public int width, height;
 	public int[] pixels;
+	int[] NAIArr = new int[0]; //Not An Int Array
 	
-	public void DoASCII(String path){
+	
+	public String greetUser(){
+		return "Welcome to ASCII Loop V0.1.0, For help type 'Help'";
+	}
+	
+	public void ProcessInput(String input) {
+		input = input.toLowerCase();
+		if (input.contains("loadext")){
+			loadFileExt((input.replace("loadext ", "")));
+		} else if (input.contains("load")){
+			String tmpF = input.replace("load ", "");
+			loadFile(tmpF);
+		} else if (input.contains("list")) {
+			listItAll();
+		} else if (input.contains("help")) {
+			System.out.println("Possible Commands:\nHelp - Displays This Prompt\nList - Lists Possible Assets to load\nLoad - Loads and Processes an image\nLoadExt - Loads and Processes an External Image");
+		} else {
+			System.out.println("Input Not Recognized...");
+		}
+	}
+	
+	void listItAll() {
+		File dir = new File("./Resources/");
+		File[] filesList = dir.listFiles();
+		for (File file : filesList) {
+		    if (file.isFile()) {
+		        System.out.println((file.getName()).replace(".png",""));
+		    }
+		}
+	}
+	
+	void loadFile(String file){
+		String filePath = "/" + file + ".png";
+		try {
+			DoASCII(filePath, false);
+		} catch(Exception e) {
+			System.out.println("'" + filePath + "' Was Not a Valid File");
+		}
+	}
+	
+	void loadFileExt(String file){
+		String filePath = file;
+		try {
+			DoASCII(filePath, true);
+		} catch(Exception e) {
+			System.out.println("'" + filePath + "' Was Not a Valid File");
+		}
+	}
+	
+	public void DoASCII(String path, Boolean ext){
 		
 		BufferedImage image = null;
 
 		// try to load image (not found throws an exception).
 		try {
-			image = ImageIO.read(ASCII.class.getResourceAsStream(path));
+			if (ext){
+				File extFi = new File(path);
+				image = ImageIO.read(extFi);
+			} else {
+				image = ImageIO.read(ASCII.class.getResourceAsStream(path));
+			}
 			System.out.println("Asset Loaded");
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -29,6 +86,10 @@ public class ASCII {
 		if (image == null) {
 			return;
 		}
+		//Dump Vars (Multiple Uses)
+		width = 0;
+		height = 0;
+		pixels = NAIArr;
 
 		// sets up path and vars.
 		this.path = path;
