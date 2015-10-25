@@ -28,10 +28,78 @@ public class ASCII {
 		} else if (input.contains("load")){
 			String tmpF = input.replace("load ", "");
 			loadFile(tmpF);
-		} else if (input.contains("list")) {
+		} else if (input.contains("list") && !(input.contains("for"))) {
 			listItAll();
+		} else if (input.contains("fordrawlist")){
+			System.out.println("Triangle\nPyramid\nDiamond\nDiamondOut");
+		} else if (input.contains("fordraw")){
+			forDraw(input);
 		} else if (input.contains("help")) {
-			System.out.println("Possible Commands:\nHelp - Displays This Prompt\nList - Lists Possible Assets to load\nLoad - Loads and Processes an image\nLoadExt - Loads and Processes an External Image");
+			System.out.println("Possible Commands:\nHelp - Displays This Prompt\nList - Lists Possible Assets to load\nLoad - Loads and Processes an image\nLoadExt - Loads and Processes an External Image\nForDraw - Draws an image the boring way\nForDrawList - list possible things to ForDraw");
+		} else {
+			System.out.println("Input Not Recognized...");
+		}
+	}
+	
+	void forDraw(String in){
+		if (in.contains("tri")){
+			String tri = "";
+			for(int i = 0; i<11;i++){
+				tri += "*";
+				System.out.println(tri);
+			}
+		} else if (in.contains("pyr")){
+			int wide = 20;
+			String tri = "";
+			for(int i = 0; i<=wide;i++){
+				tri += "*";
+				for(int k = 0; k<=(wide-(tri.length())); k++){
+					tri = " " + tri;
+				}
+				if (i%2 == 0){
+					System.out.println(tri);
+				}
+				tri = tri.trim();
+			}
+		} else if (in.contains("dia") && in.contains("out")){
+			  for(int i=0;i<10;i++)
+			  {
+			      for(int j = 0; j<(9-i); j++)
+			          System.out.print(" ");
+			      System.out.print("*");
+			      for(int k = 0; k<(i*2); k++)
+			          System.out.print(" ");
+			      System.out.println("*");
+			  } 
+		    for(int i=10-1;i>=0;i--)
+		    {
+		        for(int j = 0; j<(9-i);j++)
+		            System.out.print(" ");
+		        System.out.print("*");
+		        for(int k = 0; k<(i*2); k++)
+		            System.out.print(" ");
+		        System.out.println("*");
+		    }
+		} else if (in.contains("dia")){
+			int wide = 20;
+			int aRow = 0;
+			String[] diamond = new String[11];
+			String tri = "";
+			for(int i = 0; i<=wide;i++){
+				tri += "*";
+				for(int k = 0; k<=(wide-(tri.length())); k++){
+					tri = " " + tri;
+				}
+				if (i%2 == 0){
+					System.out.println(tri);
+					diamond[aRow] = tri;
+					aRow++;
+				}
+				tri = tri.trim();
+			}
+			for (int i = (diamond.length - 1); i>=0; i--){
+				System.out.println(diamond[i]);
+			}
 		} else {
 			System.out.println("Input Not Recognized...");
 		}
